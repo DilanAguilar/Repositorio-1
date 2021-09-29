@@ -1,0 +1,14 @@
+{
+  "my-orders-extra-actions.invoice-button": {
+    "component": "MyOrdersWrapper"
+  },
+  "invoice-button-custom": {
+    "component": "OrderPlacedWrapper"
+  },
+  "profile-edit-button": {
+    "component": "ProfileEditButton"
+  },
+  "remove-cancel-button": {
+    "component": "RemoveCancelButton"
+  }
+}

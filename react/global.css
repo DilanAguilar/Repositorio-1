@@ -1,0 +1,11 @@
+.vtex-my-account-1-x-boxContainerFooter {
+  display: none;
+}
+
+.vtex-my-orders-app-3-x-cancelBtn {
+  display: none;
+}
+
+.vtex-account__order-details li:nth-child(2){
+  display: none
+} 

@@ -1,0 +1,6 @@
+{
+	"my-orders-extra-actions-container > my-orders-extra-actions": "my-orders-extra-actions.invoice-button",
+	"op-section > invoice-button-custom": "invoice-button-custom",
+	"profile-display-container > profile-edit-button": "profile-edit-button",
+	"my-orders-extra-actions-container > remove-cancel-button": "remove-cancel-button"
+}

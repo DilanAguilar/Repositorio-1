@@ -1,0 +1,20 @@
+{
+	"store/modal.title": "Request invoice for order {orderId}",
+	"store/modal.disclaimer": "",
+	"store/modal.message": "Check that the information provided is correct before sending!",
+	"store/modal.razonSocial.placeholder": "Customer Name or Company Name",
+	"store/modal.rfc.placeholder": "RFC",
+	"store/modal.correoElectronico.placeholder": "Email",
+	"store/modal.claveCFDI.placeholder": "Use of CFDI",
+	"store/modal.pais.placeholder": "Country of tax residence",
+	"store/modal.numIdFiscal.placeholder": "Tax ID number",
+	"store/modal.confirmation.label": "Send",
+	"store/modal.cancelation.label": "Cancel",
+	"store/modal.extranjero.label" : "Foreign?",
+	"store/modal.comentarios.label" : "Comments:",
+	"store/modal.razonSocial.error.msg": "Check that the Name or Company Name is spelled correctly.",
+	"store/modal.rfc.error.msg": "Check that your RFC is spelled correctly.",
+	"store/modal.correoElectronico.error.msg": "Check that your email is spelled correctly.",
+	"store/modal.claveCFDI.error.msg": "Check that one of the options is selected.",
+	"store/modal.pais.error.msg": "Check that one of the options is selected."
+}

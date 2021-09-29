@@ -1,0 +1,21 @@
+{
+	"store/modal.title": "Solicitar factura de la orden {orderId}",
+	"store/modal.disclaimer": "",
+	"store/modal.message": "¡Revisa que la información proporcionada sea la correcta antes de enviar!",
+	"store/modal.razonSocial.placeholder": "Nombre del cliente o Razón Social",
+	"store/modal.rfc.placeholder": "RFC",
+	"store/modal.correoElectronico.placeholder": "Correo electrónico",
+	"store/modal.claveCFDI.placeholder": "Uso de CFDI",
+	"store/modal.pais.placeholder": "País de residencia fiscal",
+	"store/modal.numIdFiscal.placeholder": "Número de identificación fiscal",
+	"store/modal.confirmation.label": "Enviar",
+	"store/modal.cancelation.label": "Cancelar",
+	"store/modal.extranjero.label" : "¿Extranjero?",
+	"store/modal.comentarios.label" : "Comentarios:",
+	"store/modal.razonSocial.error.msg": "Revisa que el Nombre o Razón social este correctamente escrita.",
+	"store/modal.rfc.error.msg": "Revisa que tu RFC este correctamente escrito.",
+	"store/modal.correoElectronico.error.msg": "Revisa que tu correo electónico este correctamente escrito.",
+	"store/modal.claveCFDI.error.msg": "Revisa que alguna de las opciones este seleccionada.",
+	"store/modal.pais.error.msg": "Revisa que alguna de las opciones este seleccionada."
+	
+}
