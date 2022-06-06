@@ -1,29 +1,29 @@
 {
-    "vendor": "tecmonterreymxqa",
-    "name": "invoice-orders",
-    "version": "0.0.23",
-    "title": "{{APP TITLE}}",
-    "description": "{{APP DESCRIPTION}}",
-    "defaultLocale": "en",
-    "builders": {
-        "messages": "1.x",
-        "store": "0.x",
-        "react": "3.x"
-    },
-    "mustUpdateAt": "2019-04-02",
-    "scripts": {
-        "postreleasy": "vtex publish --verbose"
-    },
-    "dependencies": {
-        "vtex.styleguide": "9.x",
-        "vtex.css-handles": "0.x",
-        "vtex.store-resources": "0.x",
-        "vtex.my-orders-app": "3.x",
-        "vtex.order-placed": "2.x",
-        "vtex.flex-layout": "0.x",
-        "vtex.my-account": "1.x",
-        "vtex.my-account-commons": "1.x",
-        "vtex.session-client": "1.x"
-    },
-    "$schema": "https://raw.githubusercontent.com/vtex/node-vtex-api/master/gen/manifest.schema"
+  "vendor": "tecmonterreymxqa",
+  "name": "invoice-orders",
+  "version": "0.0.23",
+  "title": "{{APP TITLE}}",
+  "description": "{{APP DESCRIPTION}}",
+  "defaultLocale": "en",
+  "builders": {
+    "messages": "1.x",
+    "store": "0.x",
+    "react": "3.x"
+  },
+  "mustUpdateAt": "2019-04-02",
+  "scripts": {
+    "postreleasy": "vtex publish --verbose"
+  },
+  "dependencies": {
+    "vtex.styleguide": "9.x",
+    "vtex.css-handles": "0.x",
+    "vtex.store-resources": "0.x",
+    "vtex.my-orders-app": "3.x",
+    "vtex.order-placed": "2.x",
+    "vtex.flex-layout": "0.x",
+    "vtex.my-account": "1.x",
+    "vtex.my-account-commons": "1.x",
+    "vtex.session-client": "1.x"
+  },
+  "$schema": "https://raw.githubusercontent.com/vtex/node-vtex-api/master/gen/manifest.schema"
 }

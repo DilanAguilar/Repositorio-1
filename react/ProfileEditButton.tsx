@@ -1,3 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable prettier/prettier */
+/* eslint-disable react/react-in-jsx-scope */
+/* eslint-disable no-console */
 import useFetch from './utils/useFetch'
 import { useFullSession } from 'vtex.session-client'
 import './global.css'
