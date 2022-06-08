@@ -2,7 +2,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react/react-in-jsx-scope */
 /* eslint-disable prettier/prettier */
+import { Fragment } from 'react';
 import InvoiceButton from './InvoiceButton'
+import RefoundButton from './RefundButton';
 import useFetch from './utils/useFetch'
 
 const MyOrdersWrapper = ({ orderId }: any) => {
@@ -12,7 +14,7 @@ const MyOrdersWrapper = ({ orderId }: any) => {
     let creationDate: string = data.creationDate + '';
     const days = Math.round((new Date().getTime() - new Date(creationDate).getTime()) / (1000 * 3600 * 24))
     let fecha : string  = creationDate.split('T')[0]
-    const daysVisibility = 30
+    const daysVisibility = 60
 
     console.log(status, data, 'STATUUSS DESDE MIS PEDIDOS');
 
@@ -37,9 +39,9 @@ const MyOrdersWrapperChild = ({ orderId, monto, creationDate, userProfileId, med
 
     if (data?.length > 0){
         if (matricula == false ) 
-            return <InvoiceButton orderId={orderId} monto={monto} medioPago={medioPago} creationDate={creationDate}/>
+            return <Fragment><InvoiceButton orderId={orderId} monto={monto} medioPago={medioPago} creationDate={creationDate}/><RefoundButton orderId={orderId}/></Fragment>
         
-            if (matricula !== false ) return  <div>  En caso de requerir Factura, contactar a Tec Service (tecservices@servicios.tec.mx)</div>
+            if (matricula !== false ) return  <Fragment><RefoundButton orderId={orderId}/><div className='mv2'>  En caso de requerir Factura, contactar a Tec Service (tecservices@servicios.tec.mx)</div></Fragment>
         
            /*  if (matricula == true) return  <div> En caso de requerir Factura, contactar a Tec Service (tecservices@servicios.tec.mx)</div>  */   
     }
