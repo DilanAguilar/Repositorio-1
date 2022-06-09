@@ -11,7 +11,7 @@ export const RefoundButton: FC<any> = ({ orderId, refundable }) => {
   return (
     <Fragment>
       <div className="mv3">
-        {refundable ? (
+        {!refundable ? (
           <Button
             block
             variation="primary"
@@ -23,7 +23,9 @@ export const RefoundButton: FC<any> = ({ orderId, refundable }) => {
         ) : (
           <Button
             block
-            variation="secondary"
+            variation="tertiary"
+            noUpperCase
+            noWrap
             href={`/account#/facturacion?showRefund=${orderId}`}
             onClick={() => handleOpen()}
           >

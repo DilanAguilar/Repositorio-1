@@ -12,6 +12,7 @@ interface Response{
     status:any
 }
 
+
 const MyOrdersWrapper = ({ orderId }: any) => {
     const { data, status }: any = useFetch(`/api/oms/user/orders/${orderId}`)
     const medioPago: string = data?.paymentData?.transactions[0].payments[0].paymentSystemName;
@@ -23,16 +24,7 @@ const MyOrdersWrapper = ({ orderId }: any) => {
     const daysVisibility = 30
 
     const resp:Response = useFetch(`/api/dataentities/solicitudreembolso/search?_schema=v1&_fields=numeroPedido&_where=(cliente=${email} OR correo=${email})`)
-    const isRefundable = (orderId:any, obj:any) =>{
-            let id = obj.filter((item:any)=>{
-                if(orderId == item.numeroPedido)
-                return item
-            })
-
-            let resp = (id !== null && typeof id !== 'undefined') ? true: false
-            console.log('reso',resp)
-            return resp
-    }
+   
 
     console.log(status, data, 'STATUUSS DESDE MIS PEDIDOS');
     console.log(resp, 'REEMBOLSOS MIS PEDIDOS');
@@ -43,12 +35,12 @@ const MyOrdersWrapper = ({ orderId }: any) => {
 
     //console.log('IdPedidoooooo: ', orderId,'Status del pedido: ', data.status, ' - Validación: ', statusValidos.includes(data.status), ' - Condición:',  statusValidos.includes(data.status))
     if (days < daysVisibility && days >= 0 && statusValidos.includes(data.status)) 
-        return <MyOrdersWrapperChild orderId={orderId} medioPago={medioPago} monto={data.value/100} creationDate={fecha} userProfileId={userProfileId} isRefundable={isRefundable(orderId,resp.data)} />
+        return <MyOrdersWrapperChild orderId={orderId} medioPago={medioPago} monto={data.value/100} creationDate={fecha} userProfileId={userProfileId} reembolso={resp.data} />
 
     return null
 }
 
-const MyOrdersWrapperChild = ({ orderId, monto, creationDate, userProfileId, medioPago, isRefundable }: any) => {
+const MyOrdersWrapperChild = ({ orderId, monto, creationDate, userProfileId, medioPago, reembolso }: any) => {
     const { data }: any = useFetch(`api/dataentities/CL/search?userId=${userProfileId}&_fields=matricula`)
     console.log('DATAAAAAAAAAAAAA******', data);
     //const perfilAlumno = typeof(data?.[0]?.perfilAlumno) === 'undefined' ? false : (data?.[0]?.perfilAlumno === null ? false : data?.[0]?.perfilAlumno )
@@ -56,11 +48,22 @@ const MyOrdersWrapperChild = ({ orderId, monto, creationDate, userProfileId, med
     const matricula = typeof(data?.[0]?.matricula) === 'undefined' || data?.[0]?.matricula === null || data?.[0]?.matricula === '' ? false : data?.[0]?.matricula
     //console.log('matricula', matricula) 
 
+    const isRefundable = (orderId:any, obj:any) =>{
+        let conjuntoSolicitudes:any = []
+        obj.map((item:any)=>{
+             conjuntoSolicitudes.push(item.numeroPedido)
+        })
+    
+        let resp = conjuntoSolicitudes.includes(orderId)
+        console.log('reso',conjuntoSolicitudes)
+        return resp
+    }
+
     if (data?.length > 0){
         if (matricula == false ) 
-            return <Fragment><InvoiceButton orderId={orderId} monto={monto} medioPago={medioPago} creationDate={creationDate}/><RefoundButton orderId={orderId} refundable={isRefundable}/></Fragment>
+            return <Fragment><InvoiceButton orderId={orderId} monto={monto} medioPago={medioPago} creationDate={creationDate}/><RefoundButton orderId={orderId} refundable={isRefundable(orderId, reembolso)}/></Fragment>
         
-            if (matricula !== false ) return  <Fragment><RefoundButton orderId={orderId}/><div className='mv2'>  En caso de requerir Factura, contactar a Tec Service (tecservices@servicios.tec.mx)</div></Fragment>
+            if (matricula !== false ) return  <Fragment><RefoundButton orderId={orderId} refundable={isRefundable(orderId, reembolso)}/><div className='mv2'>  En caso de requerir Factura, contactar a Tec Service (tecservices@servicios.tec.mx)</div></Fragment>
         
            /*  if (matricula == true) return  <div> En caso de requerir Factura, contactar a Tec Service (tecservices@servicios.tec.mx)</div>  */   
     }
