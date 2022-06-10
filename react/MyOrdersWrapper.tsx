@@ -8,7 +8,7 @@ const MyOrdersWrapper = ({ orderId }: any) => {
     let creationDate: string = data.creationDate + '';
     const days = Math.round((new Date().getTime() - new Date(creationDate).getTime()) / (1000 * 3600 * 24))
     let fecha : string  = creationDate.split('T')[0]
-    const daysVisibility = 500
+    const daysVisibility = 30
 
     //console.log(status)
 
