@@ -359,11 +359,14 @@ const InvoiceButton: FC<Props> = ({ orderId, monto, creationDate }) => {
                 />
               </div>
               <div className={`w-100 mv6`}>
+              
                 <Textarea
-                  label={intl.formatMessage({id : "store/modal.comentarios.label"})}
+                  label={!data.extranjero ? "Captura de Código Postal y Régimen Fiscal" :intl.formatMessage({id : "store/modal.comentarios.label"})}
+                  placeholder={!data.extranjero ? "64000; 605 Sueldos y Salarios e Ingresos Asimilados a Salarios":""}
                   defaultValue={data.description}
                   onChange={handleOnChangeComment}
                 />
+                
               </div>
             </div>
           </div>
