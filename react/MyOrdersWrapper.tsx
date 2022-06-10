@@ -44,7 +44,7 @@ const MyOrdersWrapper = ({ orderId }: any) => {
 
     //console.log('IdPedidoooooo: ', orderId,'Status del pedido: ', data.status, ' - Validación: ', statusValidos.includes(data.status), ' - Condición:',  statusValidos.includes(data.status))
     if (days < daysVisibility && days >= 0 && statusValidos.includes(data.status)) 
-        return <MyOrdersWrapperChild orderId={orderId} medioPago={medioPago} monto={data.value/100} creationDate={fecha} userProfileId={userProfileId} reembolso={resp.data} />
+        return <MyOrdersWrapperChild orderId={orderId} facturas={solicitudesFacturas.data} medioPago={medioPago} monto={data.value/100} creationDate={fecha} userProfileId={userProfileId} reembolso={resp.data} />
 
     return null
 }
@@ -56,13 +56,13 @@ const MyOrdersWrapperChild = ({ orderId, userProfileId, reembolso, facturas }: a
     
 
     const isFacturas= (orderId:any, obj:any) =>{
-      let conjuntoSolicitudes:any = []
+      let facturasArray:any = []
       obj.map((item:any)=>{
-           conjuntoSolicitudes.push(item.clavePedido)
+           facturasArray.push(item.clavePedido)
       })
   
-      let resp = conjuntoSolicitudes.includes(orderId)
-      console.log('reso',conjuntoSolicitudes)
+      let resp = facturasArray.includes(orderId)
+      console.log('Response Facturas Array Mis Pedidos',facturasArray)
       return resp
   }
 
@@ -83,7 +83,7 @@ const MyOrdersWrapperChild = ({ orderId, userProfileId, reembolso, facturas }: a
 
     if (data?.length > 0){
         if (matricula == false ) 
-            return <Fragment><RefoundButton orderId={orderId} refundable={isRefundable(orderId, reembolso)}/></Fragment>
+            return <Fragment><RefoundButton orderId={orderId} refundable={isRefundable(orderId, reembolso)}/><SolicitarFactura orderId={orderId} facturas={isFacturas(orderId, facturas)}/></Fragment>
         
             if (matricula !== false ) return  <Fragment><RefoundButton orderId={orderId} refundable={isRefundable(orderId, reembolso)}/> <SolicitarFactura orderId={orderId} facturas={isFacturas(orderId, facturas)}/><div className='mv2'>  En caso de requerir Factura, contactar a Tec Service (tecservices@servicios.tec.mx)</div></Fragment>
         

@@ -2,7 +2,7 @@
 import React, { FC, Fragment, useState } from 'react'
 import { Button } from 'vtex.styleguide'
 
-export const SolicitarFactura: FC<any> = ({ orderId }) => {
+export const SolicitarFactura: FC<any> = ({ orderId, facturas }) => {
   const [isModalOpen, setIsModalOpen] = useState(false)
 
   const handleOpen = () => {
@@ -12,14 +12,27 @@ export const SolicitarFactura: FC<any> = ({ orderId }) => {
   return (
     <Fragment>
       <div className="mv3">
-        <Button
-          block
-          variation="secondary"
-          href={`/account#/facturacion?orderFacturacion=${orderId}`}
-          onClick={() => handleOpen()}
-        >
-          Solicitar Factura
-        </Button>
+        {!facturas ? (
+          <Button
+            block
+            variation="secondary"
+            href={`/account#/facturacion?orderFacturacion=${orderId}`}
+            onClick={() => handleOpen()}
+          >
+            SOLICITAR FACTURA
+          </Button>
+        ) : (
+          <Button
+            block
+            variation="secondary"
+            noUpperCase
+            noWrap
+            href={`/account#/facturacion?showInvoice=${orderId}`}
+            onClick={() => handleOpen()}
+          >
+            VER SOLICITUD FACTURA
+          </Button>
+        )}
       </div>
     </Fragment>
   )
