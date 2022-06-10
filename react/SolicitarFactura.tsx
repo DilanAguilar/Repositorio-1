@@ -2,7 +2,7 @@
 import React, { FC, Fragment, useState } from 'react'
 import { Button } from 'vtex.styleguide'
 
-export const RefoundButton: FC<any> = ({ orderId, refundable }) => {
+export const SolicitarFactura: FC<any> = ({ orderId, facturas }) => {
   const [isModalOpen, setIsModalOpen] = useState(false)
 
   const handleOpen = () => {
@@ -12,25 +12,25 @@ export const RefoundButton: FC<any> = ({ orderId, refundable }) => {
   return (
     <Fragment>
       <div className="mv3">
-        {!refundable ? (
+        {!facturas ? (
           <Button
             block
-            variation="primary"
-            href={`/account#/facturacion?orderReembolsos=${orderId}`}
+            variation="secondary"
+            href={`/account#/facturacion?orderFacturacion=${orderId}`}
             onClick={() => handleOpen()}
           >
-            Solicitar Reembolso
+            SOLICITAR FACTURA
           </Button>
         ) : (
           <Button
             block
-            variation="tertiary"
+            variation="secondary"
             noUpperCase
             noWrap
-            href={`/account#/facturacion?showRefund=${orderId}`}
+            href={`/account#/facturacion?showInvoice=${orderId}`}
             onClick={() => handleOpen()}
           >
-            Ver Solicitud Reembolso
+            VER SOLICITUD FACTURA
           </Button>
         )}
       </div>
@@ -38,4 +38,4 @@ export const RefoundButton: FC<any> = ({ orderId, refundable }) => {
   )
 }
 
-export default RefoundButton
+export default SolicitarFactura

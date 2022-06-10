@@ -10,6 +10,4 @@ declare module 'vtex.styleguide' {
   export const Modal: ComponentType<ModalProps>
   export const Checkbox: ComponentType<CheckboxProps>
   export const useOrder: ComponentType<useOrderProps>
-
-
 }

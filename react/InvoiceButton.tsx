@@ -285,9 +285,9 @@ const InvoiceButton: FC<Props> = ({ orderId, monto, creationDate, medioPago }) =
 */
   return (
     <div className="mt3">
-      <Button block variation="secondary" onClick={() => handleOpen()} href="/account#/facturacion">
-        Solicitar Factura
-      </Button>
+       <Button block variation="secondary" onClick={() => handleOpen()} href="/account#/facturacion">
+        Ver Solicitud de Factura
+      </Button> 
 
       <ModalDialog
         responsiveFullScreen
