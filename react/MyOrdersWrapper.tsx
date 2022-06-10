@@ -85,9 +85,9 @@ const MyOrdersWrapperChild = ({ orderId, userProfileId, reembolso, facturas }: a
         if (matricula == false ) 
             return <Fragment><RefoundButton orderId={orderId} refundable={isRefundable(orderId, reembolso)}/><SolicitarFactura orderId={orderId} facturas={isFacturas(orderId, facturas)}/></Fragment>
         
-            if (matricula !== false ) return  <Fragment><RefoundButton orderId={orderId} refundable={isRefundable(orderId, reembolso)}/> <SolicitarFactura orderId={orderId} facturas={isFacturas(orderId, facturas)}/><div className='mv2'>  En caso de requerir Factura, contactar a Tec Service (tecservices@servicios.tec.mx)</div></Fragment>
+            if (matricula !== false ) return  <Fragment><RefoundButton orderId={orderId} refundable={isRefundable(orderId, reembolso)}/><div className='mv2'>  En caso de requerir Factura, contactar a Tec Service (tecservices@servicios.tec.mx)</div></Fragment>
         
-             if (matricula == true) return  <div> En caso de requerir Factura, contactar a Tec Service (tecservices@servicios.tec.mx)</div>  
+             if (matricula == true) return  <Fragment><RefoundButton orderId={orderId} refundable={isRefundable(orderId, reembolso)}/><SolicitarFactura orderId={orderId} facturas={isFacturas(orderId, facturas)}/></Fragment> 
     }
 
 
