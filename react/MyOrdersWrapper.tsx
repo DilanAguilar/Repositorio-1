@@ -5,8 +5,9 @@
 /* eslint-disable react/react-in-jsx-scope */
 /* eslint-disable prettier/prettier */
 import { Fragment } from 'react';
+import PupilButton from './PupilButton';
 import SolicitarFactura from './SolicitarFactura';
-import RefoundButton from './RefundButton';
+/* import RefoundButton from './RefundButton'; */
 import useFetch from './utils/useFetch'
 /* import { useEffect, useState } from 'react'
 import VerFacturaButton from './VerFacturaButton'; */
@@ -31,7 +32,7 @@ const MyOrdersWrapper = ({ orderId }: any) => {
 
     const resp:Response = useFetch(`/api/dataentities/solicitudreembolso/search?_schema=v1&_fields=numeroPedido&_where=(cliente=${email} OR correo=${email})`)
    
-
+    /* const solicitudesFacturas = useFetch( `/_v/solicitudesfacturas?querystring=${correo}`)  */
     const solicitudesFacturas = useFetch( `api/dataentities/facturacionvtable/search?_schema=schemafacturacion&_fields=clavePedido&_where=(cliente=${correo} OR correoElectronico=${correo})`)
     console.log(solicitudesFacturas, "FETCH DESDE MIS PEDIDOS FACTURAS");
     console.log(status, data, 'STATUUSS DESDE MIS PEDIDOS');
@@ -41,15 +42,16 @@ const MyOrdersWrapper = ({ orderId }: any) => {
     if (status != 'fetched') return null
 
     let statusValidos:  string[] = ['approve-payment','payment-approved', 'ready-for-handling','start-handling', 'handling', 'invoice', 'invoiced']
-
+    let statusValidus:  string[] = ['payment-approved'] 
+    let dataxx: string[] = data
     //console.log('IdPedidoooooo: ', orderId,'Status del pedido: ', data.status, ' - Validación: ', statusValidos.includes(data.status), ' - Condición:',  statusValidos.includes(data.status))
     if (days < daysVisibility && days >= 0 && statusValidos.includes(data.status)) 
-        return <MyOrdersWrapperChild orderId={orderId} facturas={solicitudesFacturas.data} medioPago={medioPago} monto={data.value/100} creationDate={fecha} userProfileId={userProfileId} reembolso={resp.data} />
+        return <MyOrdersWrapperChild orderId={orderId} facturas={solicitudesFacturas.data} statusValidus={statusValidus} dataxx={dataxx} medioPago={medioPago} monto={data.value/100} creationDate={fecha} userProfileId={userProfileId} reembolso={resp.data} />
 
     return null
 }
 
-const MyOrdersWrapperChild = ({ orderId, userProfileId, reembolso, facturas }: any) => {
+const MyOrdersWrapperChild = ({ orderId, userProfileId, facturas, statusValidus, dataxx  }: any) => {
     const { data }: any = useFetch(`api/dataentities/CL/search?userId=${userProfileId}&_fields=matricula`)
     console.log('DATAAAAAAAAAAAAA******', data);
     //const perfilAlumno = typeof(data?.[0]?.perfilAlumno) === 'undefined' ? false : (data?.[0]?.perfilAlumno === null ? false : data?.[0]?.perfilAlumno )
@@ -70,7 +72,7 @@ const MyOrdersWrapperChild = ({ orderId, userProfileId, reembolso, facturas }: a
     const matricula = typeof(data?.[0]?.matricula) === 'undefined' || data?.[0]?.matricula === null || data?.[0]?.matricula === '' ? false : data?.[0]?.matricula
     //console.log('matricula', matricula) 
 
-    const isRefundable = (orderId:any, obj:any) =>{
+   /*  const isRefundable = (orderId:any, obj:any) =>{
         let conjuntoSolicitudes:any = []
         obj.map((item:any)=>{
              conjuntoSolicitudes.push(item.numeroPedido)
@@ -79,15 +81,21 @@ const MyOrdersWrapperChild = ({ orderId, userProfileId, reembolso, facturas }: a
         let resp = conjuntoSolicitudes.includes(orderId)
         console.log('reso',conjuntoSolicitudes)
         return resp
-    }
+    } */
 
     if (data?.length > 0){
+        if (statusValidus.includes(dataxx.status)) 
+        return  <div></div> 
+
+
         if (matricula == false ) 
-            return <Fragment><RefoundButton orderId={orderId} refundable={isRefundable(orderId, reembolso)}/><SolicitarFactura orderId={orderId} facturas={isFacturas(orderId, facturas)}/></Fragment>
-        
-            if (matricula !== false ) return  <Fragment><RefoundButton orderId={orderId} refundable={isRefundable(orderId, reembolso)}/><div className='mv2'>  En caso de requerir Factura, contactar a Tec Service (tecservices@servicios.tec.mx)</div></Fragment>
-        
-             if (matricula == true) return  <Fragment><RefoundButton orderId={orderId} refundable={isRefundable(orderId, reembolso)}/><SolicitarFactura orderId={orderId} facturas={isFacturas(orderId, facturas)}/></Fragment> 
+            return <Fragment><SolicitarFactura orderId={orderId} facturas={isFacturas(orderId, facturas)}/></Fragment>
+
+            if (matricula !== false ) return  <Fragment><PupilButton></PupilButton></Fragment>         
+
+           /*  if (matricula !== false ) return  <Fragment><div className='mv2'>  En caso de requerir Factura, contactar a Tec Service (tecservices@servicios.tec.mx)</div></Fragment> */
+          
+             if (matricula == true) return  <Fragment><SolicitarFactura orderId={orderId} facturas={isFacturas(orderId, facturas)}/></Fragment> 
     }
 
 
