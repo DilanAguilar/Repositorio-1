@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { FC, Fragment, useState } from 'react'
+/* import React, { FC, Fragment, useState } from 'react'
 import { Button } from 'vtex.styleguide'
 
 export const PupilButton: FC<any> = ({ orderId, facturas }) => {
@@ -16,7 +16,6 @@ export const PupilButton: FC<any> = ({ orderId, facturas }) => {
           <Button
             block
             variation="secondary"
-            /* href={`/account#/facturacion?orderFacturacion=${orderId}`} */
             href={`https://tec.cdcstage.origon.cloud/`}
             onClick={() => handleOpen()}
           >
@@ -40,3 +39,4 @@ export const PupilButton: FC<any> = ({ orderId, facturas }) => {
 }
 
 export default PupilButton
+ */

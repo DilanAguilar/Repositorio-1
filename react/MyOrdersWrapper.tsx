@@ -5,7 +5,7 @@
 /* eslint-disable react/react-in-jsx-scope */
 /* eslint-disable prettier/prettier */
 import { Fragment } from 'react';
-import PupilButton from './PupilButton';
+/* import PupilButton from './PupilButton'; */
 import SolicitarFactura from './SolicitarFactura';
 /* import RefoundButton from './RefundButton'; */
 import useFetch from './utils/useFetch'
@@ -91,11 +91,11 @@ const MyOrdersWrapperChild = ({ orderId, userProfileId, facturas, statusValidus,
         if (matricula == false ) 
             return <Fragment><SolicitarFactura orderId={orderId} facturas={isFacturas(orderId, facturas)}/></Fragment>
 
-            if (matricula !== false ) return  <Fragment><PupilButton></PupilButton></Fragment>         
+           /*  if (matricula !== false ) return  <Fragment><PupilButton></PupilButton></Fragment>   */       
 
-           /*  if (matricula !== false ) return  <Fragment><div className='mv2'>  En caso de requerir Factura, contactar a Tec Service (tecservices@servicios.tec.mx)</div></Fragment> */
+             if (matricula !== false ) return  <Fragment><div className='mv2'>  En caso de requerir Factura, contactar a Tec Service (tecservices@servicios.tec.mx)</div></Fragment> 
           
-             if (matricula == true) return  <Fragment><SolicitarFactura orderId={orderId} facturas={isFacturas(orderId, facturas)}/></Fragment> 
+            /*  if (matricula == true) return  <Fragment><SolicitarFactura orderId={orderId} facturas={isFacturas(orderId, facturas)}/></Fragment>  */
     }
 
 
