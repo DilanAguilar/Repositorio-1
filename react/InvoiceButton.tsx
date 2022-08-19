@@ -1,3 +1,10 @@
+/* eslint-disable @typescript-eslint/no-use-before-define */
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable no-console */
+/* eslint-disable no-useless-escape */
+/* eslint-disable @typescript-eslint/no-inferrable-types */
+/* eslint-disable prettier/prettier */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { FC, useState } from 'react'
 import { Button, ModalDialog, Input, Dropdown, Checkbox, Textarea } from 'vtex.styleguide'
 import { useIntl } from 'react-intl'
@@ -10,10 +17,11 @@ import styles from './css/general.css'
 interface Props {
   orderId: string,
   monto: number, 
-  creationDate: any
+  creationDate: number,
+  medioPago: any
 }
 
-interface pais {
+interface Pais {
   value : any
   label : any
 }
@@ -21,7 +29,7 @@ interface pais {
 const postData = async (data2: any) => {
   let data: any = data2;
 
-  const optPais: pais | undefined = countries.find((pais: pais) => {
+  const optPais: Pais | undefined = countries.find((pais: Pais) => {
     if (pais.value == data.pais)
       return pais
 
@@ -50,7 +58,7 @@ const postData = async (data2: any) => {
     .then(response => response.json())
 }
 
-const InvoiceButton: FC<Props> = ({ orderId, monto, creationDate }) => {
+const InvoiceButton: FC<Props> = ({ orderId, monto, creationDate, medioPago }) => {
   const intl = useIntl()
   const [data, setData] = useState({
     // "cuentaDirectorioActivo":
@@ -63,9 +71,11 @@ const InvoiceButton: FC<Props> = ({ orderId, monto, creationDate }) => {
     clavePedido: orderId,
     extranjero : false,
     fechaPago: creationDate,
+    formaPago: medioPago,
     montoPago: monto.toString(),
     numIdFiscal: '',
-    description : ''
+    description : '',
+    openModal:false
   })
 
   const [dataERROR, setDataERROR] = useState({
@@ -81,6 +91,58 @@ const InvoiceButton: FC<Props> = ({ orderId, monto, creationDate }) => {
   const [loading, setLoading] = useState(false)
 
   const handleOpen = () => {
+    
+    setIsModalOpen(() => false)
+    
+      enviarDatosForm();
+      console.log(orderId, 'ORDEN DESDE MIS PEDIDOS ORDER ID');
+      console.log(creationDate, 'ORDEN DESDE MIS PEDIDOS FECHA CREACIÓN');
+      console.log(medioPago, 'ORDEN DESDE MIS PEDIDOS MEDIO DE PAGO');
+      console.log(monto, 'ORDEN DESDE MIS PEDIDOS MONTOO');
+    
+
+  }
+
+  let dataModal = ({
+    rfc: '',
+    razonSocial: '',
+    pais: '',
+    correoElectronico: '',
+    claveCFDI: '',
+    usoCFDI: '',
+    clavePedido: orderId,
+    extranjero : false,
+    fechaPago: creationDate,
+    formaPago:medioPago,
+    montoPago: monto.toString(),
+    numIdFiscal: '',
+    description : '',
+    openModal:true
+  })
+    
+    async function enviarDatosForm() {
+      const requestOptions = {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(dataModal),
+      };
+      return await fetch(
+        "/api/dataentities/facturas/documents?_schema=facturacionTec",
+        requestOptions
+      )
+        .then((resp) => {
+          resp.json();
+          console.log(resp,"RESPUESTA SERVIDOR DESDE POST SECCIÓN MIS PEDIDOS");
+          if (resp.status === 201 || resp.status === 200 || resp.status === 204) {
+            setTimeout(() => {
+            }, 2000);
+          }
+        });
+    }
+
+/*   const handleOpen = () => {
     setData(prev => ({ ...prev, pais: '' }))
     setData(prev =>      ({...prev, rfc: ''}))
     setData(prev =>      ({...prev, razonSocial: ''}))
@@ -95,7 +157,7 @@ const InvoiceButton: FC<Props> = ({ orderId, monto, creationDate }) => {
     setData(prev =>      ({...prev, numIdFiscal: ''}))
     setData(prev =>      ({...prev, description : ''}))
     setIsModalOpen(() => true)
-  }
+  } */
 
   const handleConfirmation = async () => {
     let pase: boolean = true;
@@ -223,9 +285,9 @@ const InvoiceButton: FC<Props> = ({ orderId, monto, creationDate }) => {
 */
   return (
     <div className="mt3">
-      <Button block variation="secondary" onClick={() => handleOpen()}>
-        Solicitar Factura
-      </Button>
+       <Button block variation="secondary" onClick={() => handleOpen()} href="/account#/facturacion">
+        Ver Solicitud de Factura
+      </Button> 
 
       <ModalDialog
         responsiveFullScreen
