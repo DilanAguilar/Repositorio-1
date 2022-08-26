@@ -7,7 +7,7 @@
 import { Fragment } from 'react';
 /* import PupilButton from './PupilButton'; */
 import SolicitarFactura from './SolicitarFactura';
-/* import RefoundButton from './RefundButton'; */
+ import RefoundButton from './RefundButton'; 
 import useFetch from './utils/useFetch'
 /* import { useEffect, useState } from 'react'
 import VerFacturaButton from './VerFacturaButton'; */
@@ -28,7 +28,7 @@ const MyOrdersWrapper = ({ orderId }: any) => {
     let creationDate: string = data.creationDate + '';
     const days = Math.round((new Date().getTime() - new Date(creationDate).getTime()) / (1000 * 3600 * 24))
     let fecha : string  = creationDate.split('T')[0]
-    const daysVisibility = 30
+    const daysVisibility = 600
 
     const resp:Response = useFetch(`/api/dataentities/solicitudreembolso/search?_schema=v1&_fields=numeroPedido&_where=(cliente=${email} OR correo=${email})`)
    
@@ -51,7 +51,7 @@ const MyOrdersWrapper = ({ orderId }: any) => {
     return null
 }
 
-const MyOrdersWrapperChild = ({ orderId, userProfileId, facturas, statusValidus, dataxx  }: any) => {
+const MyOrdersWrapperChild = ({ orderId, userProfileId, facturas, statusValidus, dataxx, reembolso  }: any) => {
     const { data }: any = useFetch(`api/dataentities/CL/search?userId=${userProfileId}&_fields=matricula`)
     console.log('DATAAAAAAAAAAAAA******', data);
     //const perfilAlumno = typeof(data?.[0]?.perfilAlumno) === 'undefined' ? false : (data?.[0]?.perfilAlumno === null ? false : data?.[0]?.perfilAlumno )
@@ -72,7 +72,7 @@ const MyOrdersWrapperChild = ({ orderId, userProfileId, facturas, statusValidus,
     const matricula = typeof(data?.[0]?.matricula) === 'undefined' || data?.[0]?.matricula === null || data?.[0]?.matricula === '' ? false : data?.[0]?.matricula
     //console.log('matricula', matricula) 
 
-   /*  const isRefundable = (orderId:any, obj:any) =>{
+   const isRefundable = (orderId:any, obj:any) =>{
         let conjuntoSolicitudes:any = []
         obj.map((item:any)=>{
              conjuntoSolicitudes.push(item.numeroPedido)
@@ -81,7 +81,7 @@ const MyOrdersWrapperChild = ({ orderId, userProfileId, facturas, statusValidus,
         let resp = conjuntoSolicitudes.includes(orderId)
         console.log('reso',conjuntoSolicitudes)
         return resp
-    } */
+    } 
 
     if (data?.length > 0){
         if (statusValidus.includes(dataxx.status)) 
@@ -89,11 +89,11 @@ const MyOrdersWrapperChild = ({ orderId, userProfileId, facturas, statusValidus,
 
 
         if (matricula == false ) 
-            return <Fragment><SolicitarFactura orderId={orderId} facturas={isFacturas(orderId, facturas)}/></Fragment>
+            return <Fragment><SolicitarFactura orderId={orderId} facturas={isFacturas(orderId, facturas)}/><RefoundButton orderId={orderId} refundable={isRefundable(orderId, reembolso )}/></Fragment>
 
            /*  if (matricula !== false ) return  <Fragment><PupilButton></PupilButton></Fragment>   */       
 
-             if (matricula !== false ) return  <Fragment><div className='mv2'>  En caso de requerir Factura, contactar a Tec Service (tecservices@servicios.tec.mx)</div></Fragment> 
+             if (matricula !== false ) return  <Fragment><RefoundButton orderId={orderId} refundable={isRefundable}/><div className='mv2'>  En caso de requerir Factura, contactar a Tec Service (tecservices@servicios.tec.mx)</div></Fragment> 
           
             /*  if (matricula == true) return  <Fragment><SolicitarFactura orderId={orderId} facturas={isFacturas(orderId, facturas)}/></Fragment>  */
     }
