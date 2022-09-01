@@ -28,7 +28,7 @@ const MyOrdersWrapper = ({ orderId }: any) => {
     let creationDate: string = data.creationDate + '';
     const days = Math.round((new Date().getTime() - new Date(creationDate).getTime()) / (1000 * 3600 * 24))
     let fecha : string  = creationDate.split('T')[0]
-    const daysVisibility = 600
+    const daysVisibility = 30
 
     const resp:Response = useFetch(`/api/dataentities/solicitudreembolso/search?_schema=v1&_fields=numeroPedido&_where=(cliente=${email} OR correo=${email})`)
    
