@@ -83,17 +83,27 @@ const MyOrdersWrapperChild = ({ orderId, userProfileId, facturas, statusValidus,
         return resp
     } 
 
+    const isTuition = (sellers: any) =>{
+        let aplica = false
+        sellers.map((item:any) =>{
+            if( item.id ===  "centroidiomastecqa" || item.id === "colegiaturatecqa" || item.id ==="prestamoeducativotecqa")
+            aplica = true
+        })
+console.log("APLICA COLEGIATURA", aplica)
+        return aplica
+    }
+
     if (data?.length > 0){
         if (statusValidus.includes(dataxx.status)) 
         return  <div></div> 
 
 
         if (matricula == false ) 
-            return <Fragment><SolicitarFactura orderId={orderId} facturas={isFacturas(orderId, facturas)}/><RefoundButton orderId={orderId} refundable={isRefundable(orderId, reembolso )}/></Fragment>
+            return <Fragment><SolicitarFactura orderId={orderId} facturas={isFacturas(orderId, facturas)}/><RefoundButton orderId={orderId} refundable={isRefundable(orderId, reembolso )} colegiatura={false} /></Fragment>
 
            /*  if (matricula !== false ) return  <Fragment><PupilButton></PupilButton></Fragment>   */       
 
-             if (matricula !== false ) return  <Fragment><RefoundButton orderId={orderId} refundable={isRefundable}/><div className='mv2'>  En caso de requerir Factura, contactar a Tec Service (tecservices@servicios.tec.mx)</div></Fragment> 
+             if (matricula !== false ) return  <Fragment><RefoundButton orderId={orderId} refundable={isRefundable} colegiatura={isTuition(dataxx.sellers)}  /><div className='mv2'>  En caso de requerir Factura, contactar a Tec Service (tecservices@servicios.tec.mx)</div></Fragment> 
           
             /*  if (matricula == true) return  <Fragment><SolicitarFactura orderId={orderId} facturas={isFacturas(orderId, facturas)}/></Fragment>  */
     }
