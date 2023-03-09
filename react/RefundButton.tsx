@@ -2,7 +2,12 @@
 import React, { FC, Fragment, useState } from 'react'
 import { Button } from 'vtex.styleguide'
 
-export const RefoundButton: FC<any> = ({ orderId, refundable, disabled, colegiatura }) => {
+export const RefoundButton: FC<any> = ({
+  orderId,
+  refundable,
+  disabled,
+  colegiatura,
+}) => {
   const [isModalOpen, setIsModalOpen] = useState(false)
 
   const handleOpen = () => {
@@ -15,6 +20,17 @@ export const RefoundButton: FC<any> = ({ orderId, refundable, disabled, colegiat
         {refundable ? (
           <Button
             block
+            variation="tertiary"
+            noUpperCase
+            noWrap
+            href={`/account#/facturacion?showRefund=${orderId}`}
+            onClick={() => handleOpen()}
+          >
+            Ver Solicitud Reembolso
+          </Button>
+        ) : (
+          <Button
+            block
             disabled={disabled}
             variation="primary"
             href={
@@ -25,17 +41,6 @@ export const RefoundButton: FC<any> = ({ orderId, refundable, disabled, colegiat
             onClick={() => handleOpen()}
           >
             Solicitar Reembolso
-          </Button>
-        ) : (
-          <Button
-            block
-            variation="tertiary"
-            noUpperCase
-            noWrap
-            href={`/account#/facturacion?showRefund=${orderId}`}
-            onClick={() => handleOpen()}
-          >
-            Ver Solicitud Reembolso
           </Button>
         )}
       </div>
