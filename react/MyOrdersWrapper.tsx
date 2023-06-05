@@ -52,7 +52,8 @@ const MyOrdersWrapper = ({ orderId }: any) => {
 }
 
 const MyOrdersWrapperChild = ({ orderId, userProfileId, facturas, dataxx, reembolso, statusValidus  }: any) => {
-    const { data }: any = useFetch(`api/dataentities/CL/search?userId=${userProfileId}&_fields=matricula`)
+    const { data }: any = useFetch(`/_v/masterInfo?userId=${userProfileId}`)
+    //const { data }: any = useFetch(`api/dataentities/CL/search?_where=userId=${userProfileId}&_fields=matricula`)
     console.log('DATAAAAAAAAAAAAA******', data);
     //const perfilAlumno = typeof(data?.[0]?.perfilAlumno) === 'undefined' ? false : (data?.[0]?.perfilAlumno === null ? false : data?.[0]?.perfilAlumno )
     
