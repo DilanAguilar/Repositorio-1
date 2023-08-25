@@ -1,7 +1,7 @@
 {
   "vendor": "tecmonterreymxqa",
   "name": "invoice-orders",
-  "version": "0.0.35",
+  "version": "0.0.36",
   "title": "{{APP TITLE}}",
   "description": "{{APP DESCRIPTION}}",
   "defaultLocale": "en",

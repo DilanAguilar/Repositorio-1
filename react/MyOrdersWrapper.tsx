@@ -4,7 +4,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react/react-in-jsx-scope */
 /* eslint-disable prettier/prettier */
-import { Fragment } from 'react';
+import { Fragment} from 'react';
+import { Spinner, Alert } from 'vtex.styleguide';
 /* import PupilButton from './PupilButton'; */
 import SolicitarFactura from './SolicitarFactura';
  import RefoundButton from './RefundButton'; 
@@ -15,13 +16,12 @@ import VerFacturaButton from './VerFacturaButton'; */
 interface Response{
     data: any
     status:any
+    error: any
 }
 
 
 const MyOrdersWrapper = ({ orderId }: any) => {
-    const { data, status }: any = useFetch(`/api/oms/user/orders/${orderId}`)
-    //const correo = data?.clientProfileData?.email
-    /* const correo : string = data?.namespaces?.profile?.email.value; */
+    const { data, status, error }: Response = useFetch(`/api/oms/user/orders/${orderId}`)
     const medioPago: string = data?.paymentData?.transactions[0].payments[0].paymentSystemName;
     const userProfileId = data?.clientProfileData?.userProfileId
     const email = data?.clientProfileData?.email
@@ -30,33 +30,63 @@ const MyOrdersWrapper = ({ orderId }: any) => {
     let fecha : string  = creationDate.split('T')[0]
     const daysVisibility = 30
 
-    const resp:Response = useFetch(`/_v/solicitudesreembolsos?querystring=${email}`)
-    const solicitudesFacturas:Response = useFetch( `/_v/solicitudesfacturas?querystring=${email}`)  
-    //const solicitudesFacturas = useFetch( `api/dataentities/facturacionvtable/search?_schema=schemafacturacion&_fields=clavePedido&_where=(cliente=${correo} OR correoElectronico=${correo})`)
-    //const resp:Response = useFetch(`/api/dataentities/solicitudreembolso/search?_schema=v1&_fields=numeroPedido&_where=(cliente=${email} OR correo=${email})`)
+    const { data: resp, status: statusResp, error: errorResp }: Response = useFetch(`/_v/solicitudesreembolsos?querystring=${email}`)
+    const { data: solicitudesFacturas, status: statusSolicitudesFacturas, error: errorFacturas }: Response = useFetch(`/_v/solicitudesfacturas?querystring=${email}`)
     console.log(solicitudesFacturas, "FETCH DESDE MIS PEDIDOS FACTURAS");
     console.log(status, data, 'STATUUSS DESDE MIS PEDIDOS');
     console.log(resp, 'REEMBOLSOS MIS PEDIDOS');
 
-    
-    if (status != 'fetched') return null
 
+    let isLoading = false;
+    let hasError = false;
+
+    if (status !== 'fetched') {
+        isLoading = true;
+    }
+    if(statusSolicitudesFacturas !== 'fetched'){
+        isLoading = true;
+    }
+    if(statusResp !== 'fetched'){
+        isLoading = true;
+    }
+    if (error >= 400 || errorResp >= 400 || errorFacturas >= 400) {
+        hasError = true;
+    }
+    
     let statusValidos:  string[] = ['approve-payment','payment-approved', 'ready-for-handling','start-handling', 'handling', 'invoice', 'invoiced']
     let statusValidus:  string[] = ['invoice', 'invoiced'] 
     let dataxx: string[] = data
-    //console.log('IdPedidoooooo: ', orderId,'Status del pedido: ', data.status, ' - Validación: ', statusValidos.includes(data.status), ' - Condición:',  statusValidos.includes(data.status))
     if (days < daysVisibility && days >= 0 && statusValidos.includes(data.status)) 
-        return <MyOrdersWrapperChild orderId={orderId} facturas={solicitudesFacturas.data} statusValidus={statusValidus} dataxx={dataxx} medioPago={medioPago} monto={data.value/100} creationDate={fecha} userProfileId={userProfileId} reembolso={resp.data} />
+        return <Fragment>
+            
+            { isLoading ?  (
+                <Spinner size={20} />
+                ) : 
+            hasError ? (
+                <Alert type="error">Ha ocurrido un error de conexión, por favor recargue la página.</Alert>
+            ) : (
+               <MyOrdersWrapperChild 
+               orderId={orderId} 
+               facturas={solicitudesFacturas.data} 
+               statusValidus={statusValidus} 
+               dataxx={dataxx} 
+               medioPago={medioPago} 
+               monto={data.value/100} 
+               creationDate={fecha} 
+               userProfileId={userProfileId} 
+               reembolso={resp.data} 
+               />
+               )
+            }
+
+               </Fragment>
 
     return null
 }
 
 const MyOrdersWrapperChild = ({ orderId, userProfileId, facturas, dataxx, reembolso, statusValidus  }: any) => {
-    const { data }: any = useFetch(`/_v/masterInfo?userId=${userProfileId}`)
-    //const { data }: any = useFetch(`api/dataentities/CL/search?_where=userId=${userProfileId}&_fields=matricula`)
+    const { data}: any = useFetch(`/_v/masterInfo?userId=${userProfileId}`);
     console.log('DATAAAAAAAAAAAAA******', data);
-    //const perfilAlumno = typeof(data?.[0]?.perfilAlumno) === 'undefined' ? false : (data?.[0]?.perfilAlumno === null ? false : data?.[0]?.perfilAlumno )
-    
 
     const isFacturas= (orderId:any, obj:any) =>{
       let facturasArray:any = []
@@ -71,7 +101,6 @@ const MyOrdersWrapperChild = ({ orderId, userProfileId, facturas, dataxx, reembo
 
 
     const matricula = typeof(data?.[0]?.matricula) === 'undefined' || data?.[0]?.matricula === null || data?.[0]?.matricula === '' ? false : data?.[0]?.matricula
-    //console.log('matricula', matricula) 
 
    const isRefundable = (orderId:any, obj:any) =>{
         let conjuntoSolicitudes:any = []
