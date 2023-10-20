@@ -22,6 +22,7 @@ interface Response{
 
 const MyOrdersWrapper = ({ orderId }: any) => {
     const { data, status, error }: Response = useFetch(`/api/oms/user/orders/${orderId}`)
+    const sellerColegiatura = data?.sellers
     const medioPago: string = data?.paymentData?.transactions[0].payments[0].paymentSystemName;
     const userProfileId = data?.clientProfileData?.userProfileId
     const email = data?.clientProfileData?.email
@@ -75,6 +76,7 @@ const MyOrdersWrapper = ({ orderId }: any) => {
                creationDate={fecha} 
                userProfileId={userProfileId} 
                reembolso={resp.data} 
+               sellerColegiatura={sellerColegiatura}
                />
                )
             }
@@ -84,9 +86,11 @@ const MyOrdersWrapper = ({ orderId }: any) => {
     return null
 }
 
-const MyOrdersWrapperChild = ({ orderId, userProfileId, facturas, dataxx, reembolso, statusValidus  }: any) => {
+const MyOrdersWrapperChild = ({ orderId, userProfileId, sellerColegiatura, facturas, dataxx, reembolso, statusValidus  }: any) => {
     const { data}: any = useFetch(`/_v/masterInfo?userId=${userProfileId}`);
-    console.log('DATAAAAAAAAAAAAA******', data);
+
+    const shouldRenderButtons = sellerColegiatura.some((seller: any) => seller.id === "colegiaturatecqa" || seller.id === "prestamoeducativotecqa");
+    console.log('DATAAAAAAAAAAAAA******', data, shouldRenderButtons);
 
     const isFacturas= (orderId:any, obj:any) =>{
       let facturasArray:any = []
@@ -125,16 +129,19 @@ console.log("APLICA COLEGIATURA", aplica)
 
     if (data?.length > 0){
         if (statusValidus.includes(dataxx.status)) 
-        return  <div></div> 
+        //return  <div></div> 
 
 
-        if (matricula == false ) 
+        if (matricula == false && !shouldRenderButtons ) 
             return <Fragment><SolicitarFactura orderId={orderId} facturas={isFacturas(orderId, facturas)}/><RefoundButton orderId={orderId} refundable={isRefundable(orderId, reembolso )} colegiatura={false} /></Fragment>
 
            /*  if (matricula !== false ) return  <Fragment><PupilButton></PupilButton></Fragment>   */       
 
              if (matricula !== false ) return  <Fragment><RefoundButton orderId={orderId} refundable={isRefundable} colegiatura={isTuition(dataxx.sellers)}  /><div className='mv2'>  En caso de requerir Factura, contactar a Tec Service (tecservices@servicios.tec.mx)</div></Fragment> 
-          
+
+
+          if (shouldRenderButtons == true) 
+             return  <Fragment><RefoundButton orderId={orderId} refundable={isRefundable(orderId, reembolso )} colegiatura={isTuition(dataxx.sellers)}  /><div className='mv2'>  En caso de requerir Factura, contactar a Tec Service (tecservices@servicios.tec.mx)</div></Fragment> 
             /*  if (matricula == true) return  <Fragment><SolicitarFactura orderId={orderId} facturas={isFacturas(orderId, facturas)}/></Fragment>  */
     }
 
